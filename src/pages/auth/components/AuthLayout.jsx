@@ -1,175 +1,157 @@
+import { useState } from 'react';
+import CircularIllustration from '../../../components/auth/CircularIllustration';
+import AboutCirculappModal from '../../../components/auth/AboutCirculappModal';
+import BrandLogo from '../../../components/common/BrandLogo';
+
 export default function AuthLayout({
     children,
     title,
     subtitle,
     error,
 }) {
+    const [showAboutModal, setShowAboutModal] = useState(false);
+
     return (
-        <div
-            className="
-                relative
-                flex min-h-screen
-                items-center justify-center
-                overflow-hidden
-                bg-gradient-hero
-                px-4 py-10
-
-                sm:px-6
-                sm:py-8
-            "
-        >
-            {/* Blob decorativo superior izquierdo */}
-            <div
-                aria-hidden="true"
-                className="
-                    pointer-events-none
-                    absolute
-                    -left-20
-                    -top-20
-                    h-80
-                    w-80
-                    rounded-full
-                    bg-white
-                    opacity-[0.04]
-
-                    max-[480px]:hidden
-                "
-            />
-
-            {/* Blob decorativo inferior derecho */}
-            <div
-                aria-hidden="true"
-                className="
-                    pointer-events-none
-                    absolute
-                    -bottom-16
-                    -right-16
-                    h-96
-                    w-96
-                    rounded-full
-                    bg-primary-light
-                    opacity-[0.08]
-
-                    max-[480px]:hidden
-                "
-            />
-
-            {/* Card */}
+        <>
             <div
                 className="
                     relative
-                    z-10
-                    w-full
-                    max-w-[440px]
-                    rounded-3xl
-                    bg-background-paper
-                    px-6
-                    py-8
-                    shadow-[0_20px_60px_rgba(0,0,0,0.15)]
-                    animate-slide-up
-
-                    sm:px-8
-                    sm:py-10
-
-                    max-[480px]:rounded-2xl
+                    flex min-h-screen
+                    items-center justify-center
+                    overflow-hidden
+                    bg-gradient-hero
+                    p-4 sm:p-6 md:p-8
                 "
             >
-                {/* Logo */}
-                <div className="mb-6 flex justify-center">
-                    <div
-                        className="
-                            flex
-                            h-[52px]
-                            w-[52px]
-                            items-center
-                            justify-center
-                            rounded-[14px]
-                            bg-gradient-to-br
-                            from-text-primary
-                            to-primary
-                            shadow-[0_8px_20px_rgba(22,160,133,0.3)]
-                        "
-                    >
-                        <svg
-                            width="24"
-                            height="24"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            aria-hidden="true"
-                        >
-                            <path
-                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                                stroke="white"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            />
-                        </svg>
+                {/* Blob decorativo superior izquierdo */}
+                <div
+                    aria-hidden="true"
+                    className="
+                        pointer-events-none
+                        absolute
+                        -left-20
+                        -top-20
+                        h-80
+                        w-80
+                        rounded-full
+                        bg-white
+                        opacity-[0.04]
+                        max-[480px]:hidden
+                    "
+                />
+
+                {/* Blob decorativo inferior derecho */}
+                <div
+                    aria-hidden="true"
+                    className="
+                        pointer-events-none
+                        absolute
+                        -bottom-16
+                        -right-16
+                        h-96
+                        w-96
+                        rounded-full
+                        bg-primary-light
+                        opacity-[0.08]
+                        max-[480px]:hidden
+                    "
+                />
+
+                {/* Dual-Pane Card */}
+                <div
+                    className="
+                        relative
+                        z-10
+                        w-full
+                        max-w-[880px]
+                        rounded-3xl
+                        bg-white
+                        shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)]
+                        overflow-hidden
+                        grid grid-cols-1 md:grid-cols-12
+                        animate-slide-up
+                        border border-white/20
+                    "
+                >
+                    {/* Left Column (Circular Illustration) */}
+                    <div className="hidden md:block md:col-span-5 h-full">
+                        <CircularIllustration onOpenAbout={() => setShowAboutModal(true)} />
+                    </div>
+
+                    {/* Right Column (Auth Form) */}
+                    <div className="col-span-1 md:col-span-7 p-6 sm:p-8 md:p-9 flex flex-col justify-center">
+                        {/* Logo */}
+                        <div className="mb-3 flex justify-center">
+                            <BrandLogo variant="symbol" size="lg" />
+                        </div>
+
+                        {/* Header */}
+                        <div className="mb-4 text-center">
+                            <h1
+                                className="
+                                    text-2xl
+                                    font-bold
+                                    text-gray-900
+                                    m-0
+                                    leading-tight
+                                "
+                            >
+                                {title}
+                            </h1>
+
+                            {subtitle && (
+                                <p className="text-xs sm:text-sm text-gray-500 mt-1 m-0">
+                                    {subtitle}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Error */}
+                        {error && (
+                            <div
+                                role="alert"
+                                className="
+                                    mb-3.5
+                                    flex
+                                    items-center
+                                    gap-2
+                                    rounded-xl
+                                    border
+                                    border-rose-200
+                                    bg-rose-50
+                                    px-3.5
+                                    py-2.5
+                                    text-xs
+                                    text-rose-700
+                                "
+                            >
+                                <span className="font-bold">⚠️</span>
+                                <span>{error}</span>
+                            </div>
+                        )}
+
+                        {/* Content */}
+                        {children}
+
+                        {/* Mobile "Sobre ComunaRed" link */}
+                        <div className="mt-3.5 md:hidden text-center">
+                            <button
+                                type="button"
+                                onClick={() => setShowAboutModal(true)}
+                                className="inline-flex items-center gap-1.5 text-xs text-[#0F6E56] font-semibold bg-emerald-50 hover:bg-emerald-100 px-3.5 py-1.5 rounded-full border border-emerald-200 transition-colors cursor-pointer"
+                            >
+                                <span>ℹ️</span> ¿De qué trata ComunaRed?
+                            </button>
+                        </div>
                     </div>
                 </div>
-
-                {/* Header */}
-                <div className="mb-7 text-center">
-                    <h1
-                        className="
-                            mb-1.5
-                            text-[22px]
-                            font-medium
-                            leading-tight
-                            text-text-primary
-                        "
-                    >
-                        {title}
-                    </h1>
-
-                    <p className="text-sm text-text-secondary">
-                        {subtitle}
-                    </p>
-                </div>
-
-                {/* Error */}
-                {error && (
-                    <div
-                        role="alert"
-                        className="
-                            mb-5
-                            flex
-                            items-center
-                            gap-2
-                            rounded-[10px]
-                            border
-                            border-error/20
-                            bg-error/[0.08]
-                            px-3.5
-                            py-2.5
-                            text-[13px]
-                            text-error
-                        "
-                    >
-                        <svg
-                            width="15"
-                            height="15"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            className="shrink-0"
-                            aria-hidden="true"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                        </svg>
-
-                        <span>{error}</span>
-                    </div>
-                )}
-
-                {/* Content */}
-                {children}
             </div>
-        </div>
+
+            {/* Informative Modal: ¿De qué trata Circulapp? */}
+            <AboutCirculappModal
+                isOpen={showAboutModal}
+                onClose={() => setShowAboutModal(false)}
+            />
+        </>
     );
-}
+}

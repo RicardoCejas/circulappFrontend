@@ -50,7 +50,7 @@ export default function ResetPassword() {
   return (
     <AuthLayout
       title="Nueva Contraseña"
-      subtitle="Escribe tu nueva clave de acceso para Circulapp"
+      subtitle="Escribe tu nueva clave de acceso para ComunaRed"
       error={error}
     >
       {isSuccess ? (

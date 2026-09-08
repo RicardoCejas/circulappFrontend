@@ -13,7 +13,7 @@ const Register = () => {
                 <>
                     Únete a{" "}
                     <span className="font-semibold text-primary">
-                        Circulapp
+                        ComunaRed
                     </span>
                 </>
             }

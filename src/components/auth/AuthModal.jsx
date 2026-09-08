@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import AuthContext from '../../contexts/AuthContext';
 import CircularIllustration from './CircularIllustration';
 import AboutCirculappModal from './AboutCirculappModal';
+import BrandLogo from '../common/BrandLogo';
 import MailIcon from '../../pages/auth/icons/MailIcon';
 import LockIcon from '../../pages/auth/icons/LockIcon';
 import EyeIcon from '../../pages/auth/icons/EyeIcon';
@@ -105,15 +106,15 @@ export default function AuthModal() {
 
   return (
     <>
-      <div className="fixed inset-0 z-[90] flex items-center justify-center p-3 sm:p-4 bg-black/65 backdrop-blur-xs overflow-y-auto animate-fade-in">
-        <div className="flex flex-col items-center w-full max-w-4xl my-auto">
-          {/* Main Card */}
-          <div className="relative w-full bg-white rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-12 animate-slide-up border border-gray-100">
+      <div className="fixed inset-0 z-[90] flex items-center justify-center p-3 sm:p-4 md:p-6 bg-black/60 backdrop-blur-xs overflow-y-auto animate-fade-in">
+        <div className="flex flex-col items-center justify-center w-full max-w-[880px] my-auto">
+          {/* Main Unified Dual-Pane Card */}
+          <div className="relative w-full bg-white rounded-3xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.3)] overflow-hidden grid grid-cols-1 md:grid-cols-12 animate-slide-up border border-gray-100">
             {/* Close Button on top-right */}
             <button
               type="button"
               onClick={continueAsGuest}
-              className="absolute top-4 right-4 z-30 p-2 text-gray-400 hover:text-gray-700 bg-gray-100/80 hover:bg-gray-200/80 rounded-full transition-colors cursor-pointer"
+              className="absolute top-3.5 right-3.5 z-30 p-2 text-gray-400 hover:text-gray-700 bg-gray-100/90 hover:bg-gray-200 rounded-full transition-colors cursor-pointer shadow-xs"
               title="Cerrar y continuar como invitado"
             >
               <XMarkIcon className="w-5 h-5" />
@@ -125,29 +126,25 @@ export default function AuthModal() {
             </div>
 
             {/* Right Column (Auth Form) */}
-            <div className="col-span-1 md:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-center">
+            <div className="col-span-1 md:col-span-7 p-6 sm:p-8 md:p-9 flex flex-col justify-center">
               {/* Logo Badge */}
               <div className="flex justify-center mb-3">
-                <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-[#0F6E56] to-[#16a085] text-white shadow-md shadow-emerald-700/20">
-                  <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
-                </div>
+                <BrandLogo variant="symbol" size="lg" />
               </div>
 
               {/* Title & Subtitle */}
-              <div className="text-center mb-5">
+              <div className="text-center mb-4">
                 <h2 className="text-2xl font-bold text-gray-900 m-0">
                   {isLogin ? 'Bienvenido' : 'Crear cuenta'}
                 </h2>
-                <p className="text-sm text-gray-500 m-0 mt-1">
+                <p className="text-xs sm:text-sm text-gray-500 m-0 mt-1">
                   {isLogin ? (
                     <>
-                      Inicia sesión en <span className="font-bold text-[#0F6E56]">Circulapp</span>
+                      Inicia sesión en <span className="font-bold text-[#0F6E56]">ComunaRed</span>
                     </>
                   ) : (
                     <>
-                      Únete a <span className="font-bold text-[#0F6E56]">Circulapp</span>
+                      Únete a <span className="font-bold text-[#0F6E56]">ComunaRed</span>
                     </>
                   )}
                 </p>
@@ -162,7 +159,7 @@ export default function AuthModal() {
 
               {/* Error Box */}
               {error && (
-                <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
+                <div className="mb-3.5 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
                   <span className="font-bold">⚠️</span>
                   <span>{error}</span>
                 </div>
@@ -170,7 +167,7 @@ export default function AuthModal() {
 
               {/* Form */}
               {isLogin ? (
-                <form onSubmit={handleLoginSubmit} className="flex flex-col gap-3.5">
+                <form onSubmit={handleLoginSubmit} className="flex flex-col gap-3">
                   {/* Correo Electrónico */}
                   <div>
                     <label className={labelClasses}>Correo electrónico</label>
@@ -237,14 +234,14 @@ export default function AuthModal() {
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#0F6E56] to-[#16a085] hover:opacity-95 active:scale-[0.98] py-3 text-sm font-bold text-white shadow-md shadow-emerald-700/20 transition-all cursor-pointer disabled:opacity-70"
+                    className="mt-1 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#0F6E56] to-[#16a085] hover:opacity-95 active:scale-[0.98] py-3 text-sm font-bold text-white shadow-md shadow-emerald-700/20 transition-all cursor-pointer disabled:opacity-70"
                   >
                     {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
                     {!isLoading && <ArrowRightIcon />}
                   </button>
 
                   {/* Toggle to Register */}
-                  <div className="text-center pt-2 text-xs text-gray-500">
+                  <div className="text-center pt-1 text-xs text-gray-500">
                     ¿No tenés cuenta?{' '}
                     <button
                       type="button"
@@ -254,9 +251,28 @@ export default function AuthModal() {
                       Registrate
                     </button>
                   </div>
+
+                  {/* Separator & Guest Access */}
+                  <div className="relative my-1">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-gray-200" />
+                    </div>
+                    <div className="relative flex justify-center text-[11px]">
+                      <span className="bg-white px-2 text-gray-400 font-medium">o</span>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={continueAsGuest}
+                    className="w-full inline-flex items-center justify-center gap-2 text-xs font-semibold text-gray-600 hover:text-emerald-800 bg-gray-100/90 hover:bg-emerald-50/80 py-2.5 px-4 rounded-xl border border-gray-200 hover:border-emerald-300 transition-all duration-150 cursor-pointer"
+                  >
+                    <span>Continuar como invitado</span>
+                    <span>→</span>
+                  </button>
                 </form>
               ) : (
-                <form onSubmit={handleRegisterSubmit} className="flex flex-col gap-3">
+                <form onSubmit={handleRegisterSubmit} className="flex flex-col gap-2.5">
                   {/* Nombre */}
                   <div>
                     <label className={labelClasses}>Nombre completo</label>
@@ -403,14 +419,14 @@ export default function AuthModal() {
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#0F6E56] to-[#16a085] hover:opacity-95 active:scale-[0.98] py-3 text-sm font-bold text-white shadow-md shadow-emerald-700/20 transition-all cursor-pointer disabled:opacity-70"
+                    className="mt-1 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#0F6E56] to-[#16a085] hover:opacity-95 active:scale-[0.98] py-3 text-sm font-bold text-white shadow-md shadow-emerald-700/20 transition-all cursor-pointer disabled:opacity-70"
                   >
                     {isLoading ? 'Creando cuenta...' : 'Crear cuenta'}
                     {!isLoading && <ArrowRightIcon />}
                   </button>
 
                   {/* Toggle to Login */}
-                  <div className="text-center pt-2 text-xs text-gray-500">
+                  <div className="text-center pt-1 text-xs text-gray-500">
                     ¿Ya tenés una cuenta?{' '}
                     <button
                       type="button"
@@ -420,32 +436,39 @@ export default function AuthModal() {
                       Iniciar sesión
                     </button>
                   </div>
+
+                  {/* Separator & Guest Access */}
+                  <div className="relative my-1">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-gray-200" />
+                    </div>
+                    <div className="relative flex justify-center text-[11px]">
+                      <span className="bg-white px-2 text-gray-400 font-medium">o</span>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={continueAsGuest}
+                    className="w-full inline-flex items-center justify-center gap-2 text-xs font-semibold text-gray-600 hover:text-emerald-800 bg-gray-100/90 hover:bg-emerald-50/80 py-2.5 px-4 rounded-xl border border-gray-200 hover:border-emerald-300 transition-all duration-150 cursor-pointer"
+                  >
+                    <span>Continuar como invitado</span>
+                    <span>→</span>
+                  </button>
                 </form>
               )}
 
-              {/* Mobile "Sobre Circulapp" link */}
-              <div className="mt-4 md:hidden text-center">
+              {/* Mobile "Sobre ComunaRed" link */}
+              <div className="mt-3.5 md:hidden text-center">
                 <button
                   type="button"
                   onClick={() => setShowAboutModal(true)}
-                  className="text-xs text-[#0F6E56] font-semibold hover:underline cursor-pointer inline-flex items-center gap-1"
+                  className="inline-flex items-center gap-1.5 text-xs text-[#0F6E56] font-semibold bg-emerald-50 hover:bg-emerald-100 px-3.5 py-1.5 rounded-full border border-emerald-200 transition-colors cursor-pointer"
                 >
-                  ℹ️ ¿De qué trata Circulapp?
+                  <span>ℹ️</span> ¿De qué trata ComunaRed?
                 </button>
               </div>
             </div>
-          </div>
-
-          {/* Bottom Button: Continuar como invitado -> */}
-          <div className="mt-4">
-            <button
-              type="button"
-              onClick={continueAsGuest}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#1e463a]/90 hover:bg-[#1e463a] text-white text-sm font-semibold border border-white/30 backdrop-blur-md shadow-lg transition-all cursor-pointer hover:scale-105 active:scale-95"
-            >
-              <span>Continuar como invitado</span>
-              <span className="text-base">→</span>
-            </button>
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 // frontend/src/components/layout/Footer.jsx
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import BrandLogo from '../common/BrandLogo';
 
 const legalDocuments = {
   terminos: {
@@ -9,11 +10,11 @@ const legalDocuments = {
     content: (
       <div className="space-y-4 text-xs text-gray-600 leading-relaxed">
         <p>
-          Bienvenido a <strong>CirculApp</strong>, una plataforma comunitaria de economía circular diseñada para facilitar el intercambio, recuperación y aprovechamiento de materiales reciclables y reutilizables en la <strong>Comuna de Charbonnier</strong> y el Valle de Punilla.
+          Bienvenido a <strong>ComunaRed</strong>, una plataforma comunitaria de economía circular diseñada para facilitar el intercambio, recuperación y aprovechamiento de materiales reciclables y reutilizables en la <strong>Comuna de Charbonnier</strong> y el Valle de Punilla.
         </p>
         <h4 className="font-bold text-gray-800 text-sm">1. Propósito Comunitario</h4>
         <p>
-          CirculApp es un servicio colaborativo sin fines de lucro cuyo objetivo principal es conectar a vecinos, recolectores urbanos, cooperativas y puntos verdes para reducir la generación de residuos sólidos urbanos y fomentar la sostenibilidad ambiental local.
+          ComunaRed es un servicio colaborativo sin fines de lucro cuyo objetivo principal es conectar a vecinos, recolectores urbanos, cooperativas y puntos verdes para reducir la generación de residuos sólidos urbanos y fomentar la sostenibilidad ambiental local.
         </p>
         <h4 className="font-bold text-gray-800 text-sm">2. Uso Aceptable de la Plataforma</h4>
         <p>
@@ -32,7 +33,7 @@ const legalDocuments = {
     content: (
       <div className="space-y-4 text-xs text-gray-600 leading-relaxed">
         <p>
-          En <strong>CirculApp</strong> valoramos profundamente la privacidad de los vecinos de Charbonnier. Esta política describe cómo tratamos la información personal recopilada a través de la plataforma.
+          En <strong>ComunaRed</strong> valoramos profundamente la privacidad de los vecinos de Charbonnier. Esta política describe cómo tratamos la información personal recopilada a través de la plataforma.
         </p>
         <h4 className="font-bold text-gray-800 text-sm">1. Datos Recopilados</h4>
         <p>
@@ -44,7 +45,7 @@ const legalDocuments = {
         </p>
         <h4 className="font-bold text-gray-800 text-sm">3. Derechos del Usuario</h4>
         <p>
-          Puedes actualizar, rectificar o solicitar la eliminación definitiva de tu cuenta y todos tus datos asociados en cualquier momento desde la sección de configuración de tu perfil o comunicándote con el equipo comunal.
+          Podés solicitar la rectificación o eliminación definitiva de tu cuenta y datos de contacto en cualquier momento desde tu panel de perfil o contactando a la mesa de ayuda.
         </p>
       </div>
     )
@@ -58,7 +59,7 @@ const legalDocuments = {
           <strong>Aviso sobre transacciones y encuentros presenciales entre vecinos:</strong>
         </p>
         <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-900 font-medium">
-          CirculApp actúa exclusivamente como un canal digital de vinculación y visibilización de materiales reciclables. No interviene en la logística física, transporte, pesaje ni en acuerdos económicos privados entre particulares.
+          ComunaRed actúa exclusivamente como un canal digital de vinculación y visibilización de materiales reciclables. No interviene en la logística física, transporte, pesaje ni en acuerdos económicos privados entre particulares.
         </div>
         <h4 className="font-bold text-gray-800 text-sm">1. Seguridad en los Encuentros</h4>
         <p>
@@ -82,7 +83,7 @@ const legalDocuments = {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
           <div className="p-3.5 bg-gray-50 border border-gray-200 rounded-xl">
             <span className="text-[11px] uppercase font-bold text-emerald-800 tracking-wider block mb-1">Mesa Técnica Digital</span>
-            <p className="font-semibold text-gray-900 text-xs m-0">soporte@circulapp.charbonnier.gob.ar</p>
+            <p className="font-semibold text-gray-900 text-xs m-0">soporte@comunared.charbonnier.gob.ar</p>
             <span className="text-[10px] text-gray-500">Respuesta en 24 a 48 hs hábiles</span>
           </div>
           <div className="p-3.5 bg-gray-50 border border-gray-200 rounded-xl">
@@ -95,12 +96,12 @@ const legalDocuments = {
     )
   },
   nosotros: {
-    title: 'Sobre el Proyecto CirculApp & Charbonnier',
+    title: 'Sobre el Proyecto ComunaRed & Charbonnier',
     badge: 'Comunidad & Territorio',
     content: (
       <div className="space-y-4 text-xs text-gray-600 leading-relaxed">
         <p>
-          <strong>CirculApp</strong> nace como una respuesta comunitaria a los desafíos de gestión de residuos en el norte del <strong>Valle de Punilla</strong>, uniendo tecnología accesible con la vocación ambiental de los vecinos y trabajadores del reciclaje de Charbonnier.
+          <strong>ComunaRed</strong> nace como una respuesta comunitaria a los desafíos de gestión de residuos en el norte del <strong>Valle de Punilla</strong>, uniendo tecnología accesible con la vocación ambiental de los vecinos y trabajadores del reciclaje de Charbonnier.
         </p>
         <h4 className="font-bold text-gray-800 text-sm">Nuestra Misión</h4>
         <p>
@@ -128,14 +129,10 @@ export default function Footer() {
           {/* Cabecera Orgánica del Footer: Identidad Local */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-12 border-b border-[#E4EAE1]">
             <div className="flex items-start sm:items-center gap-3.5">
-              <div className="w-10 h-10 rounded-2xl bg-[#E8F3EE] border border-[#CDE5D8] flex items-center justify-center text-[#0F6E56] shrink-0 shadow-xs">
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-              </div>
+              <BrandLogo variant="symbol" size="md" />
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="font-bold text-lg text-gray-900 tracking-tight">CirculApp</span>
+                  <span className="font-bold text-lg text-gray-900 tracking-tight">ComunaRed</span>
                   <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-[#E1F5EE] text-[#0F6E56] border border-[#C2EAD9]">
                     Charbonnier
                   </span>
@@ -338,7 +335,7 @@ export default function Footer() {
           {/* Barra Inferior / Subfooter */}
           <div className="pt-8 mt-4 border-t border-[#E4EAE1] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-gray-500">
             <p className="m-0 text-center sm:text-left">
-              © {currentYear} <strong>CirculApp</strong> · Plataforma de Economía Circular. Desarrollado para la <strong>Comuna de Charbonnier</strong>, Córdoba.
+              © {currentYear} <strong>ComunaRed</strong> · Plataforma de Economía Circular. Desarrollado para la <strong>Comuna de Charbonnier</strong>, Córdoba.
             </p>
 
             {/* Redes Sociales Comunitarias */}

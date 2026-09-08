@@ -41,7 +41,7 @@ const DashboardUsuario = () => {
           {/* Hero Banner */}
           <HeroBanner
             title={`¡Hola, ${user.name}!`}
-            subtitle="Bienvenido de vuelta a Circulapp"
+            subtitle="Bienvenido de vuelta a ComunaRed"
             impactLabel="Impacto ambiental"
             impactScore={`${stats.impactScore} pts`}
           />

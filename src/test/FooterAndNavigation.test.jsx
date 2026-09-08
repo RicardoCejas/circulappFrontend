@@ -12,7 +12,7 @@ describe('Componente Footer y Navegación Legal (Frontend)', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getAllByText(/CirculApp/i)[0]).toBeInTheDocument();
+    expect(screen.getAllByText(/(ComunaRed|CirculApp)/i)[0]).toBeInTheDocument();
     expect(screen.getByText('Charbonnier')).toBeInTheDocument();
     expect(screen.getByText(/Valle de Punilla · Córdoba/i)).toBeInTheDocument();
   });
@@ -76,7 +76,7 @@ describe('Componente Footer y Navegación Legal (Frontend)', () => {
     fireEvent.click(exencionBtn);
 
     expect(screen.getByText(/Exención de Responsabilidad Vecinal/i)).toBeInTheDocument();
-    expect(screen.getByText(/CirculApp actúa exclusivamente como un canal digital/i)).toBeInTheDocument();
+    expect(screen.getByText(/(ComunaRed|CirculApp) actúa exclusivamente como un canal digital/i)).toBeInTheDocument();
   });
 
 });

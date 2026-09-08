@@ -1,4 +1,5 @@
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import BrandLogo from '../common/BrandLogo';
 
 export default function AboutCirculappModal({ isOpen, onClose }) {
   if (!isOpen) return null;
@@ -9,13 +10,9 @@ export default function AboutCirculappModal({ isOpen, onClose }) {
         {/* Header */}
         <div className="flex items-start justify-between p-6 pb-4">
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-11 h-11 rounded-2xl bg-gradient-to-br from-[#0F6E56] to-[#16a085] text-white shadow-md">
-              <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-            </div>
+            <BrandLogo variant="symbol" size="md" />
             <div>
-              <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight">¿Qué es Circulapp?</h2>
+              <h2 className="text-xl font-bold text-gray-900 m-0 leading-tight">¿Qué es ComunaRed?</h2>
               <p className="text-[11px] font-bold text-[#0F6E56] uppercase tracking-wider m-0 mt-0.5">Plataforma de Economía Circular</p>
             </div>
           </div>
@@ -35,7 +32,7 @@ export default function AboutCirculappModal({ isOpen, onClose }) {
           <div className="p-4 rounded-2xl bg-[#EAF5F1] border border-[#d2ebe2] text-[#13493b]">
             <p className="m-0 text-xs sm:text-sm leading-relaxed">
               <strong className="text-[#0c3c2f] font-bold">🌱 Nuestra Misión: </strong>
-              Circulapp es la solución digital que transforma la gestión de residuos en recursos de valor, conectando a vecinos, comercios y gestores de reciclaje.
+              ComunaRed es la solución digital que transforma la gestión de residuos en recursos de valor, conectando a vecinos, comercios y gestores de reciclaje.
             </p>
           </div>
 

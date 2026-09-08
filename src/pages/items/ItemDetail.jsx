@@ -401,7 +401,7 @@ const ItemDetail = () => {
             {item.ownerId?.phone && (
               user ? (
                 <a
-                  href={`https://wa.me/${cleanPhone(item.ownerId.phone)}?text=Hola%20${encodeURIComponent(item.ownerId.name)},%20vi%20tu%20publicación%20"${encodeURIComponent(item.title)}"%20en%20CirculApp%20y%20me%20interesa.`}
+                  href={`https://wa.me/${cleanPhone(item.ownerId.phone)}?text=Hola%20${encodeURIComponent(item.ownerId.name)},%20vi%20tu%20publicación%20"${encodeURIComponent(item.title)}"%20en%20ComunaRed%20y%20me%20interesa.`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 active:scale-[0.98] text-white text-sm font-medium px-5 py-3 rounded-xl transition-all duration-150 cursor-pointer shadow-xs"

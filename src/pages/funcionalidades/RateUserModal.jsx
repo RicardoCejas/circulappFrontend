@@ -172,7 +172,7 @@ const RateUserModal = ({ itemId, ownerName, onClose }) => {
         <div className="py-8 text-center bg-emerald-50 border border-emerald-200 rounded-2xl flex flex-col items-center gap-2">
           <CheckCircleIcon className="w-12 h-12 text-emerald-600 animate-bounce" />
           <h3 className="text-base font-bold text-emerald-900 m-0">¡Calificación enviada con éxito!</h3>
-          <p className="text-xs text-emerald-700 m-0">Gracias por colaborar con la comunidad CirculApp.</p>
+          <p className="text-xs text-emerald-700 m-0">Gracias por colaborar con la comunidad ComunaRed.</p>
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">

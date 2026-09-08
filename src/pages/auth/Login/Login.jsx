@@ -13,7 +13,7 @@ function Login() {
                 <>
                     Inicia sesión en{" "}
                     <span className="font-semibold text-primary">
-                        Circulapp
+                        ComunaRed
                     </span>
                 </>
             }

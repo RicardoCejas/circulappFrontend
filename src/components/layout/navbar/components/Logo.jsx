@@ -4,25 +4,18 @@
 
 // POSIBLE CAMBIO PORQUE NO ME GUSTO
 
-import IconRecycle from "../icons/IconRecycle"
+import BrandLogo from "../../../common/BrandLogo";
+
 function Logo({ onClick }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="group flex items-center gap-3 rounded-2xl p-1.5 transition duration-200 focus:outline-none"
-    >
-      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary-dark text-white shadow-soft transition-transform duration-200 group-hover:scale-105">
-        <IconRecycle className="h-5 w-5" />
-      </span>
-
-      <span className="flex flex-col text-left">
-        <span className="text-base font-bold leading-tight text-text-primary group-hover:text-primary transition-colors">
-          CirculApp
-        </span>
-        <span className="text-xs font-medium text-text-secondary">Gestión circular</span>
-      </span>
-    </button>
+    <div className="flex items-center">
+      <BrandLogo
+        variant="full"
+        size="md"
+        onClick={onClick}
+        className="py-0.5 px-1 rounded-xl hover:bg-emerald-50/60 transition-colors"
+      />
+    </div>
   );
 }
 
