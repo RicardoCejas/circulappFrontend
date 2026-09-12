@@ -99,6 +99,18 @@ const Navbar = () => {
                 />
               )}
             </div>
+
+            {/* Botón de Feedback Superior Derecho (Inmediatamente a la derecha del perfil) */}
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new CustomEvent("open-feedback-modal"))}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-xl bg-[#E1F5EE] hover:bg-[#d0f0e4] text-[#0F6E56] text-xs font-bold border border-[#A3E0CB] hover:border-[#0F6E56] shadow-2xs transition-all active:scale-95 cursor-pointer flex-shrink-0"
+              title="¡Tus Comentarios! Ayúdanos a mejorar"
+            >
+              <i className="ti ti-speakerphone text-sm sm:text-base text-[#0F6E56]" aria-hidden="true" />
+              <span className="hidden md:inline">¡Tus Comentarios!</span>
+              <span className="inline md:hidden">Feedback</span>
+            </button>
           </div>
         ) : (
           /* Header para Invitados */
@@ -127,6 +139,18 @@ const Navbar = () => {
               className="px-3.5 sm:px-4 py-1.5 sm:py-2 text-xs font-bold text-white bg-[#0F6E56] hover:bg-[#0c5946] active:scale-95 rounded-xl shadow-xs transition-all cursor-pointer"
             >
               Crear cuenta
+            </button>
+
+            {/* Botón de Feedback Invitados */}
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new CustomEvent("open-feedback-modal"))}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 sm:py-2 rounded-xl bg-[#E1F5EE] hover:bg-[#d0f0e4] text-[#0F6E56] text-xs font-bold border border-[#A3E0CB] hover:border-[#0F6E56] shadow-2xs transition-all active:scale-95 cursor-pointer flex-shrink-0"
+              title="¡Tus Comentarios! Ayúdanos a mejorar"
+            >
+              <i className="ti ti-speakerphone text-sm sm:text-base text-[#0F6E56]" aria-hidden="true" />
+              <span className="hidden md:inline">¡Tus Comentarios!</span>
+              <span className="inline md:hidden">Feedback</span>
             </button>
           </div>
         )}

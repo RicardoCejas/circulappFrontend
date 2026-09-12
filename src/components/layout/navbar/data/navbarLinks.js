@@ -6,6 +6,7 @@ import IconDashboard from "../icons/IconDashboard";
 import IconSearch from "../icons/IconSearch";
 import IconPublish from "../icons/IconPublish";
 import IconValidate from "../icons/IconValidate";
+import IconRecycle from "../icons/IconRecycle";
 
 export const NAVBAR_LINKS = [
   {
@@ -30,6 +31,12 @@ export const NAVBAR_LINKS = [
     name: "Validar",
     path: "/validate",
     icon: IconValidate,
+    roles: ["gestor", "coordinador", "admin"],
+  },
+  {
+    name: "Puntos Limpios",
+    path: "/admin/recycling-points",
+    icon: IconRecycle,
     roles: ["gestor", "coordinador", "admin"],
   },
 ];

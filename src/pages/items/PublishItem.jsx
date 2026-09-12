@@ -11,6 +11,7 @@ import AuthContext from '../../contexts/AuthContext';
 import Layout from '../../components/layout/Layout';
 import API from '../../services/Api';
 import itemService from '../../services/itemService';
+import MapView from '../../components/common/map/MapView';
 
 const categories = [
   { id: 'plastico',    name: 'Plástico',       icon: 'recycle' },
@@ -79,6 +80,9 @@ const PublishItem = () => {
     if (error) setError('');
   };
 
+  const [mapCenter, setMapCenter] = useState([-58.3816, -34.6037]);
+  const [mapZoom, setMapZoom] = useState(13);
+
   // Limpieza de ObjectURLs al desmontar o cambiar fotos
   useEffect(() => {
     return () => {
@@ -105,7 +109,7 @@ const PublishItem = () => {
       try {
         const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
         const data = await res.json();
-        if (data.length > 0) {
+        if (data && data.length > 0) {
           const { lat, lon, display_name } = data[0];
           return { lat: parseFloat(lat), lng: parseFloat(lon), formattedAddress: display_name };
         }
@@ -131,7 +135,7 @@ const PublishItem = () => {
       try {
         const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=es`);
         const data = await res.json();
-        if (data.display_name) return { lat: parseFloat(lat), lng: parseFloat(lng), formattedAddress: data.display_name };
+        if (data && data.display_name) return { lat: parseFloat(lat), lng: parseFloat(lng), formattedAddress: data.display_name };
       } catch (_E) { void _E; }
       return null;
     }
@@ -139,8 +143,7 @@ const PublishItem = () => {
 
   const handleAddressChange = (e) => {
     const address = e.target.value;
-    // Si cambia el texto de la dirección, desvinculamos coordenadas anteriores para evitar desfasaje
-    setFormData(prev => ({ ...prev, address, lat: null, lng: null }));
+    setFormData(prev => ({ ...prev, address }));
     if (error && error.includes('dirección')) setError('');
   };
 
@@ -158,6 +161,8 @@ const PublishItem = () => {
         lng: result.lng, 
         address: result.formattedAddress 
       }));
+      setMapCenter([result.lng, result.lat]);
+      setMapZoom(16);
     } else {
       setError('No se pudieron obtener coordenadas válidas para esta dirección. Intenta agregar ciudad o provincia.');
     }
@@ -174,17 +179,34 @@ const PublishItem = () => {
       );
       const { latitude, longitude } = position.coords;
       const result = await reverseGeocode(latitude, longitude);
-      if (result) {
-        setFormData(prev => ({ ...prev, lat: result.lat, lng: result.lng, address: result.formattedAddress }));
-      } else {
-        setFormData(prev => ({ ...prev, lat: latitude, lng: longitude, address: `Ubicación GPS: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}` }));
-      }
+      const resolvedAddress = result?.formattedAddress || `Ubicación GPS: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+      setFormData(prev => ({ ...prev, lat: latitude, lng: longitude, address: resolvedAddress }));
+      setMapCenter([longitude, latitude]);
+      setMapZoom(17);
     } catch (err) {
       setError(err.code === 1 ? 'Permiso de ubicación GPS denegado.' : 'No se pudo obtener tu ubicación GPS.');
     } finally {
       setIsGeocoding(false);
     }
   };
+
+  const handleMapPinSelect = useCallback(async (coords) => {
+    setIsGeocoding(true);
+    setError('');
+    setFormData(prev => ({
+      ...prev,
+      lat: coords.lat,
+      lng: coords.lng
+    }));
+    setMapCenter([coords.lng, coords.lat]);
+    const rev = await reverseGeocode(coords.lat, coords.lng);
+    const newAddress = rev?.formattedAddress || `Ubicación: ${coords.lat.toFixed(4)}, ${coords.lng.toFixed(4)}`;
+    setFormData(prev => ({
+      ...prev,
+      address: newAddress
+    }));
+    setIsGeocoding(false);
+  }, [reverseGeocode]);
 
   const handleImageChange = (e) => {
     if (!e.target.files) return;
@@ -567,6 +589,44 @@ const PublishItem = () => {
                   <span>{formData.address ? formData.address : `${formData.lat.toFixed(4)}, ${formData.lng.toFixed(4)}`}</span>
                 </div>
               )}
+
+              {/* Mapa Interactivo con Pin del Material a Reciclar */}
+              <div style={{ marginTop: '16px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                  <span style={{ fontSize: '12px', fontWeight: 600, color: '#374151', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <i className="ti ti-map-2" style={{ color: '#0F6E56', fontSize: 16 }} aria-hidden="true" />
+                    Punto de recolección en el mapa
+                  </span>
+                  <span style={{ fontSize: '11px', color: '#0F6E56', fontWeight: 500, background: '#E1F5EE', padding: '3px 8px', borderRadius: '12px' }}>
+                    Libre · OpenFreeMap
+                  </span>
+                </div>
+                <div style={{ borderRadius: '12px', overflow: 'hidden', border: '1.5px solid #D1D5DB', boxShadow: '0 1px 3px rgba(0,0,0,0.05)' }}>
+                  <MapView
+                    center={formData.lng && formData.lat ? [formData.lng, formData.lat] : mapCenter}
+                    zoom={mapZoom}
+                    markers={formData.lat && formData.lng ? [{
+                      id: 'product-pin',
+                      coordinates: [formData.lng, formData.lat],
+                      color: '#0F6E56',
+                      draggable: true,
+                      onDragEnd: handleMapPinSelect,
+                      title: formData.title || 'Material a reciclar',
+                      description: formData.address || `${formData.lat.toFixed(4)}, ${formData.lng.toFixed(4)}`
+                    }] : []}
+                    onMapClick={handleMapPinSelect}
+                    height="340px"
+                    showControls={true}
+                    showStyleSelector={true}
+                  />
+                </div>
+                <p style={{ margin: '8px 0 0', fontSize: '12px', color: '#4B5563', lineHeight: 1.4, display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
+                  <i className="ti ti-info-circle" style={{ color: '#0F6E56', fontSize: 15, flexShrink: 0, marginTop: '1px' }} aria-hidden="true" />
+                  <span>
+                    Buscá tu ciudad o barrio arriba y hacé clic sobre tu casa o arrastrá el pin para fijar la ubicación exacta.
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
 

@@ -8,6 +8,8 @@ import RateUserModal from '../funcionalidades/RateUserModal';
 import ConfirmModal from '../../components/feedback/ConfirmModal';
 import ReportModal from '../../components/feedback/ReportModal';
 import ErrorToast from '../../components/feedback/ErrorToast';
+import MapView from '../../components/common/map/MapView';
+import { getDirectionsUrl } from '../../services/locationService';
 import {
   ArrowLeftIcon,
   MapPinIcon,
@@ -373,7 +375,7 @@ const ItemDetail = () => {
 
           <div className="px-5 py-4">
             <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1.5">Ubicación</p>
-            <div className="flex items-start justify-between gap-3">
+            <div className="flex items-start justify-between gap-3 mb-2">
               <div className="flex items-start gap-2">
                 <MapPinIcon className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
                 <span className="text-sm text-gray-700">
@@ -387,11 +389,51 @@ const ItemDetail = () => {
                   rel="noopener noreferrer"
                   className="flex-shrink-0 inline-flex items-center gap-1 text-xs text-green-700 hover:text-green-800 font-medium transition-colors"
                 >
-                  Ver mapa
+                  Google Maps
                   <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5" />
                 </a>
               )}
             </div>
+
+            {/* Mapa Interactivo con Pin del Material */}
+            {(() => {
+              const itemLng = item.location?.coordinates ? item.location.coordinates[0] : item.location?.lng;
+              const itemLat = item.location?.coordinates ? item.location.coordinates[1] : item.location?.lat;
+              if (!itemLat || !itemLng || isNaN(itemLat) || isNaN(itemLng)) return null;
+
+              return (
+                <div className="mt-3 overflow-hidden rounded-xl border border-gray-200 shadow-xs">
+                  <MapView
+                    center={[itemLng, itemLat]}
+                    zoom={14}
+                    markers={[{
+                      id: item._id,
+                      coordinates: [itemLng, itemLat],
+                      title: item.title,
+                      badge: categoryNames[item.category] || item.category,
+                      description: item.address || 'Ubicación para retiro del material',
+                      color: '#16A085'
+                    }]}
+                    height="260px"
+                    interactive={true}
+                    showControls={true}
+                    showStyleSelector={true}
+                  />
+                  <div className="bg-gray-50 px-3 py-2 border-t border-gray-200 flex items-center justify-between text-xs">
+                    <span className="text-gray-500 font-medium">MapLibre + OpenFreeMap</span>
+                    <a
+                      href={getDirectionsUrl(itemLat, itemLng)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-emerald-700 hover:text-emerald-800 font-semibold inline-flex items-center gap-1 transition"
+                    >
+                      Cómo llegar (OSM)
+                      <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                </div>
+              );
+            })()}
           </div>
         </div>
 

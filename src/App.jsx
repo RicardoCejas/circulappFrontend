@@ -14,6 +14,7 @@ import ValidateMaterial from "./pages/funcionalidades/ValidateMaterial";
 import ItemDetail from "./pages/items/ItemDetail";
 import Educational from "./pages/educacion/Educational";
 import AdminUserManagement from "./pages/admin/AdminUserManagement";
+import AdminRecyclingPoints from "./pages/admin/AdminRecyclingPoints";
 import Agenda from "./pages/agenda/Agenda";
 import Historial from "./pages/historial/Historial";
 import NotFound from "./pages/notFound/NotFound";
@@ -42,8 +43,9 @@ function App() {
             </Route>
 
             {/* Rutas protegidas para Gestores y Administradores */}
-            <Route element={<RoleRoute allowedRoles={['gestor', 'admin']} />}>
+            <Route element={<RoleRoute allowedRoles={['gestor', 'admin', 'coordinador']} />}>
                 <Route path="/validate" element={<ValidateMaterial />} />
+                <Route path="/admin/recycling-points" element={<AdminRecyclingPoints />} />
             </Route>
 
             {/* Rutas protegidas exclusivas para Administradores */}

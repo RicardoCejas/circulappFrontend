@@ -5,6 +5,7 @@ import SectionCard from "../../components/dashboard/SectionCard";
 import ConfirmModal from "../../components/feedback/ConfirmModal";
 import StateBadge from "../../components/badges/StateBadge";
 import ReportModerationList from "../../components/dashboard/ReportModerationList";
+import AdminFeedbackList from "../../components/dashboard/AdminFeedbackList";
 import { IconPackage, IconChevron, IconLeaf, IconBox } from "../../components/Icons";
 
 import useDashboardGestor from "./hooks/useDashboardGestor";
@@ -78,6 +79,26 @@ const DashboardGestor = () => {
               iconColor="text-[#059669]"
               icon={<IconLeaf />}
             />
+          </div>
+
+          {/* Acceso Rápido a Gestión de Puntos Limpios */}
+          <div className="bg-white border border-emerald-200/80 rounded-2xl p-4 mb-6 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-xl shrink-0">
+                🗺️
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-gray-900 m-0">Puntos Limpios y Centros de Acopio</h3>
+                <p className="text-xs text-gray-500 m-0">Personaliza marcadores en el mapa interactivo con OpenFreeMap.</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => navigate('/admin/recycling-points')}
+              className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-semibold shadow-xs transition cursor-pointer"
+            >
+              Administrar Puntos
+            </button>
           </div>
 
           {error && <SectionCard className="text-red-500 font-medium mb-4">{error}</SectionCard>}
@@ -231,6 +252,15 @@ const DashboardGestor = () => {
               )}
             </SectionCard>
           )}
+
+          {/* Feedback y Sugerencias de Desarrollo de la Comunidad */}
+          <SectionCard 
+            title="Feedback y Sugerencias de Desarrollo" 
+            icon={IconBox} 
+            className="mt-4"
+          >
+            <AdminFeedbackList />
+          </SectionCard>
 
           {/* Accesos directos */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">

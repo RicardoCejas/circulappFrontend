@@ -12,6 +12,7 @@ import useDashboardAdmin from "./hooks/useDashboardAdmin";
 import AdminUsersTable from "./components/AdminUsersTable";
 import ReportModerationList from "../../components/dashboard/ReportModerationList";
 import AdminReportModal from "../../components/dashboard/AdminReportModal";
+import AdminFeedbackList from "../../components/dashboard/AdminFeedbackList";
 import { ADMIN_REPORTS } from "./data/dashboardData";
 
 const DashboardAdmin = () => {
@@ -99,6 +100,15 @@ const DashboardAdmin = () => {
               onDeactivateUser={handleDeactivateReportedUser}
               actionLoadingId={actionLoadingId}
             />
+          </SectionCard>
+
+          {/* Feedback y Sugerencias de Desarrollo de la Comunidad */}
+          <SectionCard 
+            title="Feedback y Sugerencias de Desarrollo" 
+            icon={IconBox} 
+            className="mt-4"
+          >
+            <AdminFeedbackList />
           </SectionCard>
 
           <SectionCard title="Reportes para la Comuna" icon={IconReport} className="mt-4">
