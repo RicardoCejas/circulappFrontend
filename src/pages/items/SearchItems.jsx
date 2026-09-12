@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../../components/layout/Layout';
 import itemService from '../../services/itemService';
 import recyclingPointService from '../../services/recyclingPointService';
-import MapView from '../../components/common/map/MapView';
+import { getOptimizedImageUrl } from '../../utils/imageOptimizer';
+
+const MapView = lazy(() => import('../../components/common/map/MapView'));
 
 const categoryConfig = [
   { id: '', name: 'Todas', icon: 'search', accent: '#888780' },
@@ -133,7 +135,7 @@ const SearchItems = () => {
         description: it.address || 'Material reciclable',
         popupContent: `
           <div style="font-family: inherit; width: 220px; padding: 4px;">
-            ${it.images && it.images[0] ? `<img src="${it.images[0]}" alt="${it.title}" style="width: 100%; height: 110px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;" />` : ''}
+            ${it.images && it.images[0] ? `<img src="${getOptimizedImageUrl(it.images[0], { width: 250 })}" alt="${it.title}" style="width: 100%; height: 110px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;" />` : ''}
             <div style="display: flex; gap: 4px; margin-bottom: 6px;">
               <span style="font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 12px; background: #e1f5ee; color: #0f6e56;">${cat.name}</span>
             </div>
@@ -203,15 +205,15 @@ const SearchItems = () => {
           background: rgba(255,255,255,0.04); pointer-events: none;
         }
         .si-hero-eyebrow {
-          font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
-          text-transform: uppercase; color: #9FE1CB; margin-bottom: 10px;
+          font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+          text-transform: uppercase; color: #D1FAE5; margin-bottom: 10px;
         }
         .si-hero h1 {
           font-size: 28px; font-weight: 600; color: #fff; margin: 0 0 8px;
           line-height: 1.2;
         }
         .si-hero p {
-          font-size: 15px; color: rgba(255,255,255,0.7); margin: 0; max-width: 480px;
+          font-size: 15px; color: rgba(255,255,255,0.95); margin: 0; max-width: 480px;
         }
         .si-form-card {
           background: var(--color-background-primary);
@@ -524,16 +526,18 @@ const SearchItems = () => {
                 </div>
               </div>
 
-              <MapView
-                center={[-58.3816, -34.6037]}
-                zoom={11}
-                markers={combinedMarkers}
-                fitBoundsMarkers={combinedMarkers.length > 1}
-                height="540px"
-                showControls={true}
-                showStyleSelector={true}
-              />
-              <p style={{ margin: '8px 0 0', fontSize: '11px', color: '#6B7280' }}>
+              <Suspense fallback={<div style={{ height: '540px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#4B5563', fontSize: '13px' }}>Cargando mapa interactivo...</div>}>
+                <MapView
+                  center={[-58.3816, -34.6037]}
+                  zoom={11}
+                  markers={combinedMarkers}
+                  fitBoundsMarkers={combinedMarkers.length > 1}
+                  height="540px"
+                  showControls={true}
+                  showStyleSelector={true}
+                />
+              </Suspense>
+              <p style={{ margin: '8px 0 0', fontSize: '11px', color: '#4B5563' }}>
                 Tip: Hacé clic sobre cualquier marcador para ver la fotografía del material, datos de contacto o trazar la ruta de retiro.
               </p>
             </div>
@@ -555,10 +559,11 @@ const SearchItems = () => {
               </div>
             ) : (
               <div className="si-grid">
-                {items.map(item => {
+                {items.map((item, index) => {
                   const stateStyle = getStateStyle(item.processingState);
                   const cat = getCategoryConfig(item.category);
                   const stateName = stateConfig.find(s => s.id === item.processingState)?.name || item.processingState;
+                  const isAboveFold = index < 2;
 
                   return (
                     <div key={item._id} className="si-card" onClick={() => navigate(`/items/${item._id}`)}>
@@ -566,9 +571,12 @@ const SearchItems = () => {
                         {item.images && item.images.length > 0 ? (
                           <>
                             <img
-                              src={item.images[0]}
+                              src={getOptimizedImageUrl(item.images[0], { width: 450 })}
                               alt={item.title}
-                              loading="lazy"
+                              loading={isAboveFold ? "eager" : "lazy"}
+                              fetchPriority={isAboveFold ? "high" : "auto"}
+                              width="345"
+                              height="180"
                               onError={(e) => {
                                 e.target.onerror = null;
                                 e.target.style.display = 'none';

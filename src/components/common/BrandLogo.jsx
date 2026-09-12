@@ -1,5 +1,5 @@
-import fullLogo from '../../assets/logo-full.png';
-import symbolLogo from '../../assets/logo-isotipo.png';
+import fullLogo from '../../assets/logo-full.webp';
+import symbolLogo from '../../assets/logo-isotipo.webp';
 
 /**
  * BrandLogo - Componente maestro de identidad visual para ComunaRed
@@ -65,6 +65,8 @@ export default function BrandLogo({
           <img
             src={symbolLogo}
             alt="ComunaRed"
+            width="48"
+            height="48"
             className={`${currentSize.symbol} object-contain transition-transform duration-200 group-hover:scale-105 ${imgClassName}`}
             loading="eager"
             decoding="async"
@@ -76,6 +78,8 @@ export default function BrandLogo({
           <img
             src={fullLogo}
             alt="ComunaRed · Comunidad Circular"
+            width="180"
+            height="56"
             className={`${currentSize.full} object-contain transition-transform duration-200 group-hover:scale-105 ${imgClassName}`}
             loading="eager"
             decoding="async"
@@ -84,24 +88,18 @@ export default function BrandLogo({
 
       case 'responsive':
         return (
-          <>
-            {/* Móvil: Isotipo limpio y compacto */}
+          <picture className="inline-flex items-center">
+            <source media="(min-width: 640px)" srcSet={fullLogo} width="180" height="56" />
             <img
               src={symbolLogo}
-              alt="ComunaRed"
-              className={`block sm:hidden ${currentSize.symbol} object-contain transition-transform duration-200 group-hover:scale-105 ${imgClassName}`}
-              loading="eager"
-              decoding="async"
-            />
-            {/* Desktop: Logo completo con alta legibilidad */}
-            <img
-              src={fullLogo}
               alt="ComunaRed · Comunidad Circular"
-              className={`hidden sm:block ${currentSize.full} object-contain transition-transform duration-200 group-hover:scale-105 ${imgClassName}`}
+              width="48"
+              height="48"
+              className={`${currentSize.symbol} sm:${currentSize.full} object-contain transition-transform duration-200 group-hover:scale-105 ${imgClassName}`}
               loading="eager"
               decoding="async"
             />
-          </>
+          </picture>
         );
 
       case 'combo':
@@ -111,6 +109,8 @@ export default function BrandLogo({
             <img
               src={symbolLogo}
               alt="ComunaRed Isotipo"
+              width="48"
+              height="48"
               className={`${currentSize.symbol} object-contain transition-transform duration-200 group-hover:scale-105 ${imgClassName}`}
               loading="eager"
               decoding="async"

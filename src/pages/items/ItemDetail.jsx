@@ -10,6 +10,7 @@ import ReportModal from '../../components/feedback/ReportModal';
 import ErrorToast from '../../components/feedback/ErrorToast';
 import MapView from '../../components/common/map/MapView';
 import { getDirectionsUrl } from '../../services/locationService';
+import { getOptimizedImageUrl } from '../../utils/imageOptimizer';
 import {
   ArrowLeftIcon,
   MapPinIcon,
@@ -308,8 +309,12 @@ const ItemDetail = () => {
               onClick={() => setSelectedImage(item.images[0])}
             >
               <img
-                src={item.images[0]}
-                alt="Foto principal"
+                src={getOptimizedImageUrl(item.images[0], { width: 900 })}
+                alt={item.title || "Foto principal"}
+                loading="eager"
+                fetchPriority="high"
+                width="800"
+                height="450"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -321,7 +326,14 @@ const ItemDetail = () => {
                     className="aspect-square bg-gray-100 rounded-xl overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
                     onClick={() => setSelectedImage(url)}
                   >
-                    <img src={url} alt={`Foto ${idx + 2}`} className="w-full h-full object-cover" />
+                    <img
+                      src={getOptimizedImageUrl(url, { width: 200 })}
+                      alt={`Foto ${idx + 2}`}
+                      loading="lazy"
+                      width="150"
+                      height="150"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 ))}
               </div>

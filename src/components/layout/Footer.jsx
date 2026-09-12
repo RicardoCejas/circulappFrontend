@@ -137,7 +137,7 @@ export default function Footer() {
                     Charbonnier
                   </span>
                 </div>
-                <p className="text-xs text-gray-500 mt-0.5 font-normal">
+                <p className="text-xs text-gray-600 mt-0.5 font-medium">
                   Red comunitaria de economía circular y recuperación de recursos en Punilla.
                 </p>
               </div>
@@ -333,13 +333,13 @@ export default function Footer() {
           </div>
 
           {/* Barra Inferior / Subfooter */}
-          <div className="pt-8 mt-4 border-t border-[#E4EAE1] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-gray-500">
+          <div className="pt-8 mt-4 border-t border-[#E4EAE1] flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-gray-600 font-medium">
             <p className="m-0 text-center sm:text-left">
               © {currentYear} <strong>ComunaRed</strong> · Plataforma de Economía Circular. Desarrollado para la <strong>Comuna de Charbonnier</strong>, Córdoba.
             </p>
 
             {/* Redes Sociales Comunitarias */}
-            <div className="flex items-center gap-4 text-gray-400">
+            <div className="flex items-center gap-4 text-gray-600">
               <a
                 href="https://www.instagram.com"
                 target="_blank"
