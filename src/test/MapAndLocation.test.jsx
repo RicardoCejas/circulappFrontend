@@ -1,8 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import MapView, { MAP_STYLES } from '../components/common/map/MapView';
 import LocationPickerMap from '../components/common/map/LocationPickerMap';
-import { geocodeAddress, reverseGeocode, getDirectionsUrl } from '../services/locationService';
+import { geocodeAddress, getDirectionsUrl } from '../services/locationService';
 import recyclingPointService from '../services/recyclingPointService';
 import API from '../services/Api';
 

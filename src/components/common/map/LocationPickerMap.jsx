@@ -1,5 +1,5 @@
 // circulappFrontend-main/src/components/common/map/LocationPickerMap.jsx
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import MapView from './MapView';
 import { geocodeAddress, reverseGeocode } from '../../../services/locationService';
 
@@ -16,13 +16,12 @@ const LocationPickerMap = ({
   const [addressInput, setAddressInput] = useState(value.address || '');
   const [isSearching, setIsSearching] = useState(false);
   const [searchError, setSearchError] = useState('');
-  const debounceRef = useRef(null);
 
   // Sincronizar estado interno si cambian las props externas
   useEffect(() => {
-    if (value.lat !== undefined && value.lat !== lat) setLat(value.lat);
-    if (value.lng !== undefined && value.lng !== lng) setLng(value.lng);
-    if (value.address !== undefined && value.address !== addressInput) setAddressInput(value.address || '');
+    if (value.lat !== undefined) setLat(value.lat);
+    if (value.lng !== undefined) setLng(value.lng);
+    if (value.address !== undefined) setAddressInput(value.address || '');
   }, [value.lat, value.lng, value.address]);
 
   // Actualizar coordenadas y notificar al padre
@@ -78,7 +77,7 @@ const LocationPickerMap = ({
       } else {
         setSearchError('No encontramos esa dirección. Intenta agregar ciudad o país.');
       }
-    } catch (err) {
+    } catch (_err) {
       setSearchError('Error de conexión al buscar dirección.');
     } finally {
       setIsSearching(false);

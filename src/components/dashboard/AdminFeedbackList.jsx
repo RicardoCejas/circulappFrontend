@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import feedbackService from "../../services/feedbackService";
 
 const AdminFeedbackList = () => {
@@ -7,11 +7,7 @@ const AdminFeedbackList = () => {
   const [filterType, setFilterType] = useState("");
   const [updatingId, setUpdatingId] = useState(null);
 
-  useEffect(() => {
-    loadFeedbacks();
-  }, [filterType]);
-
-  const loadFeedbacks = async () => {
+  const loadFeedbacks = useCallback(async () => {
     setLoading(true);
     try {
       const data = await feedbackService.getFeedbacks(filterType ? { type: filterType } : {});
@@ -21,7 +17,11 @@ const AdminFeedbackList = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filterType]);
+
+  useEffect(() => {
+    loadFeedbacks();
+  }, [loadFeedbacks]);
 
   const handleStatusChange = async (id, newStatus) => {
     setUpdatingId(id);

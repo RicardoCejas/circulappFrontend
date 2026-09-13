@@ -8,50 +8,8 @@ if (typeof maplibregl.setWorkerUrl === 'function') {
   maplibregl.setWorkerUrl('/maplibre-gl-worker.mjs');
 }
 
-// Estilos de mapa: OpenStreetMap detallado estándar (calles, numeración, pasajes) + vectoriales OpenFreeMap
-export const MAP_STYLES = {
-  osm: {
-    id: 'osm',
-    name: 'Calles (OSM)',
-    url: {
-      version: 8,
-      sources: {
-        'osm-raster': {
-          type: 'raster',
-          tiles: [
-            'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
-          ],
-          tileSize: 256,
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors'
-        }
-      },
-      layers: [
-        {
-          id: 'osm-raster-layer',
-          type: 'raster',
-          source: 'osm-raster',
-          minzoom: 0,
-          maxzoom: 19
-        }
-      ]
-    }
-  },
-  liberty: {
-    id: 'liberty',
-    name: 'Liberty (Vector)',
-    url: 'https://tiles.openfreemap.org/styles/liberty'
-  },
-  positron: {
-    id: 'positron',
-    name: 'Positron',
-    url: 'https://tiles.openfreemap.org/styles/positron'
-  },
-  bright: {
-    id: 'bright',
-    name: 'Bright',
-    url: 'https://tiles.openfreemap.org/styles/bright'
-  }
-};
+import { MAP_STYLES } from './mapStyles';
+export { MAP_STYLES };
 
 const DEFAULT_CENTER = [-58.3816, -34.6037]; // Buenos Aires [lng, lat]
 const DEFAULT_ZOOM = 13;
@@ -70,35 +28,35 @@ const isWebGLAvailable = () => {
   }
 };
 
+// Función de escape para neutralizar Stored XSS en popups
+const escapeHtml = (str) => String(str || '').replace(/[&<>"']/g, (m) => ({
+  '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+}[m]));
+
 const MapView = ({
   center = DEFAULT_CENTER,
   zoom = DEFAULT_ZOOM,
-  styleUrl = MAP_STYLES.osm.url,
   markers = [],
-  onMapClick,
+  fitBoundsMarkers = false,
   interactive = true,
   showControls = true,
   showStyleSelector = false,
-  fitBoundsMarkers = false,
-  height = '400px',
+  styleUrl = MAP_STYLES.osm,
+  height = '320px',
   className = '',
+  onMapClick,
   onMapLoad
 }) => {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const markersRef = useRef([]);
   const [activeStyle, setActiveStyle] = useState(styleUrl);
-  const [isSupported, setIsSupported] = useState(true);
+  const [isSupported] = useState(() => isWebGLAvailable());
   const [, setMapReady] = useState(false);
 
   // 1. Inicialización de la instancia de MapLibre GL
   useEffect(() => {
-    // Comprobar soporte WebGL (evita caídas en entornos jsdom / sin WebGL)
-    if (!isWebGLAvailable()) {
-      setIsSupported(false);
-      return;
-    }
-
+    if (!isSupported) return;
     if (!mapContainerRef.current) return;
 
     let initialStyle = activeStyle;
@@ -170,6 +128,7 @@ const MapView = ({
       mapRef.current = null;
       setMapReady(false);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // Solo al montar
 
   // 2. Manejo de cambio de estilo
@@ -310,9 +269,9 @@ const MapView = ({
         } else {
           popup.setHTML(`
             <div style="font-family: inherit; padding: 4px;">
-              <h4 style="margin: 0 0 4px; font-size: 13px; font-weight: 700; color: #111827;">${m.title || 'Ubicación'}</h4>
-              ${m.badge ? `<span style="display:inline-block; font-size: 10px; font-weight: 600; text-transform: uppercase; background: #e1f5ee; color: #0f6e56; padding: 2px 8px; border-radius: 12px; margin-bottom: 6px;">${m.badge}</span>` : ''}
-              ${m.description ? `<p style="margin: 0; font-size: 12px; color: #4b5563; line-height: 1.4;">${m.description}</p>` : ''}
+              <h4 style="margin: 0 0 4px; font-size: 13px; font-weight: 700; color: #111827;">${escapeHtml(m.title || 'Ubicación')}</h4>
+              ${m.badge ? `<span style="display:inline-block; font-size: 10px; font-weight: 600; text-transform: uppercase; background: #e1f5ee; color: #0f6e56; padding: 2px 8px; border-radius: 12px; margin-bottom: 6px;">${escapeHtml(m.badge)}</span>` : ''}
+              ${m.description ? `<p style="margin: 0; font-size: 12px; color: #4b5563; line-height: 1.4;">${escapeHtml(m.description)}</p>` : ''}
             </div>
           `);
         }

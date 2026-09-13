@@ -116,6 +116,10 @@ const SearchItems = () => {
     otro: '#16A085'
   };
 
+  const escapeHtml = (str) => String(str || '').replace(/[&<>"']/g, (m) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[m]));
+
   const itemMapMarkers = items
     .filter(it => {
       const lat = it.location?.coordinates ? it.location.coordinates[1] : it.location?.lat;
@@ -126,6 +130,10 @@ const SearchItems = () => {
       const lat = it.location?.coordinates ? it.location.coordinates[1] : it.location?.lat;
       const lng = it.location?.coordinates ? it.location.coordinates[0] : it.location?.lng;
       const cat = getCategoryConfig(it.category);
+      const safeTitle = escapeHtml(it.title);
+      const safeAddress = escapeHtml(it.address || 'Sin dirección específica');
+      const safeCatName = escapeHtml(cat.name);
+
       return {
         id: `item-${it._id}`,
         coordinates: [lng, lat],
@@ -135,12 +143,12 @@ const SearchItems = () => {
         description: it.address || 'Material reciclable',
         popupContent: `
           <div style="font-family: inherit; width: 220px; padding: 4px;">
-            ${it.images && it.images[0] ? `<img src="${getOptimizedImageUrl(it.images[0], { width: 250 })}" alt="${it.title}" style="width: 100%; height: 110px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;" />` : ''}
+            ${it.images && it.images[0] ? `<img src="${getOptimizedImageUrl(it.images[0], { width: 250 })}" alt="${safeTitle}" style="width: 100%; height: 110px; object-fit: cover; border-radius: 8px; margin-bottom: 8px;" />` : ''}
             <div style="display: flex; gap: 4px; margin-bottom: 6px;">
-              <span style="font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 12px; background: #e1f5ee; color: #0f6e56;">${cat.name}</span>
+              <span style="font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 12px; background: #e1f5ee; color: #0f6e56;">${safeCatName}</span>
             </div>
-            <h4 style="margin: 0 0 4px; font-size: 13px; font-weight: 600; color: #111827; line-height: 1.3;">${it.title}</h4>
-            <p style="margin: 0 0 8px; font-size: 11px; color: #6b7280; line-height: 1.3;">${it.address || 'Sin dirección específica'}</p>
+            <h4 style="margin: 0 0 4px; font-size: 13px; font-weight: 600; color: #111827; line-height: 1.3;">${safeTitle}</h4>
+            <p style="margin: 0 0 8px; font-size: 11px; color: #6b7280; line-height: 1.3;">${safeAddress}</p>
             <a href="/items/${it._id}" style="display: block; text-align: center; font-size: 11px; font-weight: 600; padding: 6px 12px; background: #0f6e56; color: white; border-radius: 6px; text-decoration: none;">Ver publicación</a>
           </div>
         `
@@ -156,6 +164,11 @@ const SearchItems = () => {
     .map(pt => {
       const lat = pt.location?.coordinates ? pt.location.coordinates[1] : pt.location?.lat;
       const lng = pt.location?.coordinates ? pt.location.coordinates[0] : pt.location?.lng;
+      const safeName = escapeHtml(pt.name);
+      const safeAddress = escapeHtml(pt.address);
+      const safeSchedule = pt.schedule ? escapeHtml(pt.schedule) : '';
+      const safePhone = pt.contactPhone ? escapeHtml(pt.contactPhone) : '';
+
       return {
         id: `point-${pt._id}`,
         coordinates: [lng, lat],
@@ -168,10 +181,10 @@ const SearchItems = () => {
             <div style="display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 12px; background: #ecfdf5; color: #047857; margin-bottom: 6px;">
               ♻️ Punto Limpio Oficial
             </div>
-            <h4 style="margin: 0 0 4px; font-size: 13px; font-weight: 700; color: #111827;">${pt.name}</h4>
-            <p style="margin: 0 0 4px; font-size: 11px; color: #4b5563;"><strong>Dirección:</strong> ${pt.address}</p>
-            ${pt.schedule ? `<p style="margin: 0 0 4px; font-size: 11px; color: #4b5563;"><strong>Horario:</strong> ${pt.schedule}</p>` : ''}
-            ${pt.contactPhone ? `<p style="margin: 0 0 8px; font-size: 11px; color: #4b5563;"><strong>Tel:</strong> ${pt.contactPhone}</p>` : ''}
+            <h4 style="margin: 0 0 4px; font-size: 13px; font-weight: 700; color: #111827;">${safeName}</h4>
+            <p style="margin: 0 0 4px; font-size: 11px; color: #4b5563;"><strong>Dirección:</strong> ${safeAddress}</p>
+            ${safeSchedule ? `<p style="margin: 0 0 4px; font-size: 11px; color: #4b5563;"><strong>Horario:</strong> ${safeSchedule}</p>` : ''}
+            ${safePhone ? `<p style="margin: 0 0 8px; font-size: 11px; color: #4b5563;"><strong>Tel:</strong> ${safePhone}</p>` : ''}
             <a href="https://www.openstreetmap.org/directions?engine=fossgis_osrm_car&route=%3B${lat}%2C${lng}" target="_blank" rel="noopener noreferrer" style="display: block; text-align: center; font-size: 11px; font-weight: 600; padding: 6px 12px; background: #047857; color: white; border-radius: 6px; text-decoration: none;">Cómo llegar</a>
           </div>
         `

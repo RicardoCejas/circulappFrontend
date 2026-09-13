@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
-import AuthContext from "../../contexts/AuthContext";
+import React, { useState, useEffect } from "react";
 import feedbackService from "../../services/feedbackService";
 
 const ADVANCES_LIST = [
@@ -30,7 +29,6 @@ const ADVANCES_LIST = [
 ];
 
 const BetaTestingDrawer = ({ isOpen, onClose, onOpenGeneralFeedback }) => {
-  const { user } = useContext(AuthContext);
   const [activeTab, setActiveTab] = useState("advances"); // "advances" | "reports" | "test_form"
   const [selectedFeature, setSelectedFeature] = useState(ADVANCES_LIST[0]);
   const [reports, setReports] = useState([]);

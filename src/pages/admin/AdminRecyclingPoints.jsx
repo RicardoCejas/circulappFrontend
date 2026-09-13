@@ -159,7 +159,7 @@ const AdminRecyclingPoints = () => {
       setSuccessMsg('Punto limpio eliminado.');
       setDeletingId(null);
       await fetchPoints();
-    } catch (err) {
+    } catch (_err) {
       setErrorMsg('No se pudo eliminar el punto limpio.');
       setDeletingId(null);
     }

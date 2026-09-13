@@ -1,5 +1,5 @@
 // frontend/src/contexts/NotificationProvider.jsx
-import { useState, useEffect, useCallback, useContext } from 'react';
+import { useState, useEffect, useCallback, useContext, useRef } from 'react';
 import AuthContext from './AuthContext';
 import NotificationContext from './NotificationContext';
 import notificationService from '../services/notificationService';
@@ -9,6 +9,11 @@ export default function NotificationProvider({ children }) {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const unreadCountRef = useRef(unreadCount);
+
+  useEffect(() => {
+    unreadCountRef.current = unreadCount;
+  }, [unreadCount]);
 
   // Solicitar permisos de Web Push / Notificaciones de escritorio
   const requestBrowserPermission = useCallback(async () => {
@@ -49,7 +54,7 @@ export default function NotificationProvider({ children }) {
       const newUnread = data.unreadCount || 0;
 
       // Si llegaron nuevas alertas y la app está en segundo plano, disparar aviso
-      if (silent && newUnread > unreadCount && newItems.length > 0) {
+      if (silent && newUnread > unreadCountRef.current && newItems.length > 0) {
         const latest = newItems[0];
         emitBrowserNotification(latest.title, latest.message);
       }
@@ -61,7 +66,7 @@ export default function NotificationProvider({ children }) {
     } finally {
       if (!silent) setLoading(false);
     }
-  }, [user, unreadCount, emitBrowserNotification]);
+  }, [user, emitBrowserNotification]);
 
   // Polling inteligente cada 30 segundos
   useEffect(() => {
